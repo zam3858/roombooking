@@ -21,5 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/rooms/store', 'RoomController@store');
 Route::get('/rooms/create', 'RoomController@create');
+Route::get('/rooms/{id}', 'RoomController@show');
 Route::get('/rooms', 'RoomController@index');
-
+//Route::resource('rooms','RoomController');

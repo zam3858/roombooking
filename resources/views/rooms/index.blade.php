@@ -4,13 +4,28 @@
 <div class="container">
     <div class="row justify-content-center">
     	<h3>Room list:</h3>
-    	<ul>
+    	<table class="table table-striped">
+    		<tr>
+    			<th>Name</th>
+    			<th>Level</th>
+    			<th></th>
+    		</tr>
     	@foreach($rooms as $room)
-
-			<li>{{ $room->name }}, Level: {{ $room->level }}</li>
-
+			<tr>
+				<td>
+					{{ $room->name }}
+				</td>
+				<td>
+					{{ $room->level }}
+				</td>
+				<td>
+					<a href="{{ url( '/rooms/' . $room->id ) }}" 
+						class="btn btn-primary"
+						>View</a>
+				</td>
+			</tr>
     	@endforeach
-    	</ul>
+    	</table>
     </div>
 </div>
 @endsection

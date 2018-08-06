@@ -10,7 +10,7 @@ class RoomController extends Controller
 	public function index() {
 		$rooms = Room::all();
 
-		return view('rooms.index', compact('rooms')  );
+		return view('rooms.index', ['rooms' => $rooms ]  );
 	}
 
     public function create() {
@@ -31,9 +31,11 @@ class RoomController extends Controller
     }
 
     
-    public function show(Room $room)
+    public function show($id)
     {
-        //
+        $room = Room::find($id);
+
+        return view('rooms.show', compact('room'));
     }
 
     /**
