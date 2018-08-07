@@ -8,9 +8,18 @@ use App\Room;
 class RoomController extends Controller
 {
 	public function index() {
-		$rooms = Room::all();
 
-		return view('rooms.index', ['rooms' => $rooms ]  );
+        
+        $room = Room::find(1);
+        $room->fill($room_data);
+        $room->password = "abc";
+        $room->save();
+
+        return "1";        
+
+		// $rooms = Room::all();
+
+		// return view('rooms.index', ['rooms' => $rooms ]  );
 	}
 
     public function create() {
@@ -44,9 +53,12 @@ class RoomController extends Controller
      * @param  \App\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function edit(Room $room)
+    public function edit($id)
     {
-        //
+        //dapatkan maklumat room 
+        $room = Room::find($id);
+
+        return view('rooms.edit', compact('room'));
     }
 
     /**
@@ -56,9 +68,17 @@ class RoomController extends Controller
      * @param  \App\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Room $room)
+    public function update($id)
     {
-        //
+        //dapatkan maklumat room 
+        $room = Room::find($id);
+
+        $room->name = request('name');
+        $room->level = request('level');
+
+        $room->save();
+
+        return redirect('/rooms');
     }
 
     /**
@@ -67,8 +87,14 @@ class RoomController extends Controller
      * @param  \App\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Room $room)
+    public function destroy($id)
     {
-        //
+        //dapatkan maklumat room 
+        $room = Room::find($id);
+
+        //delete rekod room
+        $room->delete();
+
+        return redirect('/rooms');
     }
 }
