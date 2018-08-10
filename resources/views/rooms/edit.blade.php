@@ -10,6 +10,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ url('/rooms/' . $room->id) }}" aria-label="{{ __('Room Form') }}">
                         @csrf
+         <input name="_method" type="hidden" value="PUT">
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>

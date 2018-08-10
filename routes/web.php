@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,17 +21,13 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::post('/rooms/store', 'RoomController@store');
+Route::resource('rooms', 'RoomController');
+//wajibkan login
+Route::group(['middleware' => 'auth'], function () {
 
-Route::get('/rooms/create', 'RoomController@create');
-Route::get('/rooms/{id}', 'RoomController@show')
-	->where('id', '[0-9]+');
+	Route::resource('kegunaans', 'Setup\KegunaanController');
+	
+	
 
+});
 
-Route::get('/rooms/{id}/edit', 'RoomController@edit');
-Route::post('/rooms/{id}', 'RoomController@update');
-
-Route::get('/rooms/{id}/delete', 'RoomController@destroy');
-
-Route::get('/rooms', 'RoomController@index');
-//Route::resource('rooms','RoomController');

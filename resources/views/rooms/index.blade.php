@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <div class="container">
@@ -10,56 +10,50 @@
 						class="btn btn-primary"
 						title="New"
 						>
-				<i class="far fa-plus-square"></i>
+				<i class="fa fa-plus-square"></i>
 			</a>
 
     	</h3>
+    	<div class="container">
+    		<form method="GET" class="col-md-12">
+				<div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label text-md-right">Search</label>
+
+                    <div class="col-md-6">
+                        <input id="search_name" type="text" class="form-control"
+                               name="search_name"
+								value="{{ $search_name }}"
+                                >
+                    </div>
+                    <div class="col-md-2">
+                    	<button type="submit" class="btn btn-primary">
+                    		<i class="fas fa-search"></i>
+                    	</button>
+                	</div>
+                </div>
+    		</form>
+    	</div>
     	<table class="table table-striped">
     		<tr>
     			<th>Name</th>
     			<th>Level</th>
+    			<th>Penjaga</th>
     			<th></th>
     		</tr>
     	@foreach($rooms as $room)
-			<tr>
-				<td>
-					{{ $room->name }}
-				</td>
-				<td>
-					{{ $room->level }}
-				</td>
-				<td>
-			<a href="{{ url( '/rooms/' . $room->id ) }}" 
-				class="btn btn-primary"
-				title="View"
-				>
-				<i class="far fa-eye"></i> 
-				
-			</a>
-			<a href="{{ url( '/rooms/' . $room->id .'/edit' ) }}" 
-				class="btn btn-secondary"
-				title="Edit"
-				>
-				<i class="fas fa-edit"></i>
-			</a>
 
-			<form action="{{  url( '/rooms/' . $room->id .'/delete' ) }}" method="POST" 
-				style="display:inline;"
-				>
-				@csrf
-				<button
-					class="btn btn-danger" 
-					onClick="return confirm('Are you sure?');"
-					title="Delete"
-					>
-					<i class="fas fa-trash"></i>
-					
-				</button>
-			</form>
-				</td>
-			</tr>
+			@include('rooms.trtdroom')
+
     	@endforeach
     	</table>
+    	{{ 
+    		$rooms
+    		->appends( ['search_name' => $search_name ] )
+    		->links() 
+    	}}
+
+		
+
     </div>
 </div>
 @endsection

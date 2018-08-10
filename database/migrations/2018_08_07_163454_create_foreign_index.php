@@ -28,8 +28,12 @@ class CreateForeignIndex extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::table('rooms', function (Blueprint $table) {
             $table->dropForeign('rooms_user_id_foreign');
         });
+        
+        Schema::enableForeignKeyConstraints();
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.cth')
 
 @section('content')
 <div class="container">
@@ -8,38 +8,10 @@
                 <div class="card-header">{{ __('Room Form') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ url('/rooms/store') }}" aria-label="{{ __('Room Form') }}">
+                    <form method="POST" action="{{ url('/rooms') }}" aria-label="{{ __('Room Form') }}">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                       name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="level" class="col-md-4 col-form-label text-md-right">{{ __('Level') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="level" type="text" class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}"
-                                       name="level" value="{{ old('level') }}" required >
-
-                                @if ($errors->has('level'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('level') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                        @include('rooms.form')
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -54,4 +26,18 @@
         </div>
     </div>
 </div>
+
+
 @endsection
+
+@push('scripts')
+    <script>
+        //script 1
+    </script> 
+@endpush
+
+@push('scripts')
+    <script>
+        //script 2
+    </script> 
+@endpush

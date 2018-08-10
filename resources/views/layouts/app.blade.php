@@ -49,6 +49,9 @@
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('rooms') }}">Rooms</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -73,8 +76,21 @@
         </nav>
 
         <main class="py-4">
+            
+            @if ($errors->any())
+             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                Could not save record.
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+             </div>
+            @endif
+            
             @yield('content')
         </main>
     </div>
+
+   
+    
 </body>
 </html>
