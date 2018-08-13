@@ -38,20 +38,31 @@ class ManageKegunaan extends Command
      */
     public function handle()
     {
+        /**
+         * untuk memaparkan maklumat didalam bentuk table
+         * 2 array diperlukan
+         *   1) array yang mengandungi senarai column ($header)
+         *   2) array yang mengandungi senarai rekod yang akan dipaparkan ($kegunaan)
+         */
         $header = ['Name', 'Tarikh Rekod Dicipta'];
         $kegunaan = Kegunaan::get(['name','created_at'])
-                ->toArray()
+            ->toArray()
             ;
 
+        //paparkan table
         $this->table($header, $kegunaan);
 
+        //Ini akan meminta pengguna memberi input dan input ini
+        //  akan dimasukkan ke dalam $name
         $name = $this->ask("Masukkan nama kegunaan:");
 
         if(empty($name)) {
-
+            //paparkan error pada terminal
             $this->error("Tiada Maklumat Nama Bilik Baru diberi");
 
         } else {
+            //didalam command artisan dapat menggunakan Model sebagaimana
+            // membina aplikasi biasa laravel.
             Kegunaan::create([ 'name' => $name  ]);
 
             //display senarai kegunaan baru    
@@ -61,6 +72,7 @@ class ManageKegunaan extends Command
 
             $this->table($header, $kegunaan);
 
+            //memaparkan kepada pengguna prosess selesai pada terminal
             $this->info("Maklumat berjaya dimasukkan. TQ...");
         }
         

@@ -15,7 +15,9 @@ class RoomController extends Controller
 {
 
   public function __construct() {
-    //$this->middleware( [ 'auth', 'branch' ]);
+      //ini akan memberitahu laravel supaya menggunakan middleware auth supaya
+      // mewajibkan user login sebelum meng-access apa sahaja dalam
+    $this->middleware( [ 'auth']);
   }
 
 	public function index() {
@@ -24,8 +26,14 @@ class RoomController extends Controller
         
         Artisan::call('kegunaan:proses');
 
+        $x = 10;
 
         $rooms = Room::with( ['user', 'kegunaan'] )
+                  /**
+                   * ->when($variable, function() {})
+                   *  apabila $variable dinilai true, function akan di run
+                   *
+                   */
                   ->when($search_name, function($query, $search_name) {
 
                         return $query->where('name', 'LIKE',  $search_name  . "%")
@@ -34,13 +42,33 @@ class RoomController extends Controller
                         ;
 
                   })
+                    /**
+                     * untuk susun rekod supaya nama keluar mengikut susunan
+                     * abjad menaik
+                     */
+                  ->orderBy('name', 'ASC')
+                    /**
+                     * ->paginate(10) akan memulangkan $x rekod (dalam code ini, $x diset pada line 27 )
+                     * dan menggunakan request('page') untuk menentukan permulaan 10
+                     *
+                     */
                   ->paginate(10);
-  
+
+        /**
+         * view() akan load page untuk dipaparkan kepada pengguna.
+         *      'rooms.index' akan mencapai resources/views/rooms/index.blade.php.
+         *      parameter kedua iaitu compact('rooms', 'search_name') akan
+         */
 		return view( 'rooms.index', compact('rooms', 'search_name') );
 	}
 
     public function create() {
 
+        /**
+         * ini untuk mendapatkan maklumat user dan kegunaan untuk di isi kedalam <select>
+         *  di dalam form create
+         * Model::all() adalah untuk mendapatkan semua rekod dalam table yang dibaca Model
+         */
         $users = User::all();
         $kegunaans = Kegunaan::all();
 
@@ -50,24 +78,29 @@ class RoomController extends Controller
 
     public function store(Request $request) {
 
-        $validateData = Validator::make($request->all(), [
-                            'name' => [
-                                function($attribute, $value, $fail) use ($request) {
-                                    if(empty($value)) {
-                                        return $fail($attribute.' is invalid.');
-                                    }
-                                },
-                            ],
-                        ]);
-
-        dd($validateData->fails());
-
-        //if fail validation, goes back to form create
+        /**
+         * validation paling mudah adalah menggunakan $request->validate();
+         * jika data yang dihantar tidak melepasi validation rules ditetapkan,
+         * $request->validate() akan memanggil back()->withInput();
+         * dimana ini akan kembali ke create() dan membawa
+         * input2 diisi pengguna dan memaparkan input pengguna menggunakan
+         * old('namafield')
+         *
+        */
         $validatedData = $request->validate([
             'name' => 'required',
             'level' => 'required'
         ]);
 
+        /**
+         * berikut adalah kaedah untuk mengisi rekod room.
+         *  cara pertama ialah dengan menggunakan pattern
+         *  $room->namafield = $value_untuk_namafield
+         *
+         *  cara kedua ialah dengan menggunakan pattern
+         *  $room = new Room(['namafield1' => $valuefield1, 'namafield2' => $valuefield2  ]
+         *   cuma dengan menggunakan cara ini, perlu diset $guarded atau $fillable pada model terlibat (Room)
+         */
     	$room = new Room();
 
     	$room->name = request('name');
@@ -80,20 +113,26 @@ class RoomController extends Controller
     	return redirect('/rooms');
     }
 
-    
+
+    /**
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($id)
     {
-        //Model::find()
+        /**
+         * Model::find($id) adalah sama seperti memanggil Room::where('id', $id)->first();
+         * ->first() ini bertujuan mendapatkan rekod pertama pada query yang dijalankan.
+         */
         $room = Room::find($id);
 
         return view('rooms.show', compact('room'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * paparkan borang edit rekod
      *
-     * @param  \App\Room  $room
-     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -109,34 +148,26 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Room  $room
-     * @return \Illuminate\Http\Response
      */
     public function update($id)
     {
-        //dapatkan maklumat room 
+
+        // untuk update, perlu mendapatkan rekod yang hendak diedit
         $room = Room::find($id);
 
+        // update field terlibat dengan value baru
         $room->name = request('name');
         $room->level = request('level');
 
+        //jangan lupa save
         $room->save();
 
         return redirect('/rooms');
     }
 
-    /**
-     * Soft delete implemented the specified resource from storage.
-     * 
-     *
-     * @param  \App\Room  $room
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //dapatkan maklumat room 
-        $room = Room::withTrashed()->find($id);
+        $room = Room::find($id);
 
         //delete rekod room
         $room->delete();
@@ -148,40 +179,27 @@ class RoomController extends Controller
     * Hard Delete record
     */
     public function hardDelete($id) {
+        /**
+         * dapatkan maklumat room yang hendak kita delete
+         *  oleh kerana Room menggunakan softdelete, kita perlu menggunakan withTrashed() untuk
+         *  membolehkan query mencapai rekod yang telah di-delete
+         */
         $room = Room::withTrashed()->find(5);
         $room->forceDelete();
         return redirect('/rooms');
     }
 
+    /**
+     * berikut adalah contoh menggunakan raw SQL statement untuk mendapatkan data.
+     */
     public function getAllByRawQuery() {
         $rooms = DB::select("SELECT * FROM rooms");
-        
-        return view('rooms.index');
-    }
 
-    public function getAllWithJustSelectedField() {
-        
-        $rooms = Room::with( ['user', 'kegunaan'] )
-                  ->when($search_name, function($query, $search_name) {
-
-                        return $query->where('name', 'LIKE',  $search_name  . "%")
-                                    ->orWhere('keterangan', 'LIKE', $search_name."%")
-
-                        ;
-
-                  })
-                  ->when($search_user, function($query, $search_user) {
-
-                        return $query->where('user_id',  $search_user );
-                        
-                  })
-                  // ->orWhereHas('kegunaan', function ($query) use ($search_name) {
-
-                    //     $query->where('name', 'LIKE', $search_name);
-                    // })
-                  ->get(['user', 'level' ,'kegunaan']);
-
-        return view('rooms.index', compact('rooms'));
+        /**
+         *  untuk data jenis array,
+         *   laravel akan automatically tukar value kedalam bentuk json
+         */
+        return $rooms;
     }
 
 

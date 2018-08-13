@@ -1,60 +1,98 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+### Training 6-10 August 2018, MAMPU
 
-## About Laravel
+## Rujukan
+ 
+ [Document Laravel](https://laravel.com/docs/5.6)
+ [Asas PHP (laracasts)](https://laracasts.com/series/php-for-beginners)
+ [Laravel From Scratch (laracasts)](https://laracasts.com/series/laravel-from-scratch-2017)
+ [PHP The Right Way](https://www.phptherightway.com/)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+## Nota laravel
+Setelah mendapatkan laravel (samada menggunakan laragon 
+atau download dari website Laravel), perlu edit .env file pada 
+folder aplikasi laravel. 
 
-## Learning Laravel
+Ini untuk memasukkan maklumat nama aplikasi, DB dan lain-lain. 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+Setelah Untuk setup laravel asas, biasanya perlu run command:
+    
+    php artisan key:generate
+    php artisan make:auth
+    php artisan migrate
+    
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+Command artisan make:auth adalah untuk bina asas login mudah yang boleh 
+digunakan sebagai asas aplikasi.
 
-## Laravel Sponsors
+## Membina table pertama
+Untuk membina table, kaedah disarankan ialah menggunakan migration iaitu dengan 
+menjalankan command artisan berikut
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+    php artisan make:migration create_new_table_namatable --create=namatable
+    
+Ini akan membina file migration apa folder database/migrations/
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
+Edit file migration yang baru dibina itu untuk tambahkan apa-apa field yang diperlukan untuk table itu.
 
-## Contributing
+## Model
+Model mengawal keluar-masuk data dari database (tapi sebenarnya ia boleh
+merujuk kepada file dan lain2).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Untuk membina model, boleh jalankan command artisan dibawah:
 
-## Security Vulnerabilities
+    php artisan make:model NamaModel 
+    
+Beberapa nota dalam training dimasukkan ke dalam model Room (app/Room.php)
+sebagai comment sebagai rujukan
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Controller
+Controller bertujuan mengawal flow aplikasi yang dibina.
 
-## License
+Untuk membina controller, command artisan terlibat adalah:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    php artisan make:controller NamaController
+    //ATAU 
+    php artisan make:controller NamaController --resource
+
+dengan menggunakan opsyen --resouce, ia akan menjanakan sekali resource
+functions (index,create, store, edit, update, delete) dalam controller terjana.
+
+Beberapa nota training juga dimasukkan ke dalam file controller RoomController 
+(app/Http/Controllers/RoomController.php)
+
+## View
+View digunakan untuk tujuan paparan. Laravel menggunakan template enjin
+Blade. View berada dalam folder resources/views/. Kebiasaannya nama folder
+dalam folder resources/views/ ini adalah mengikut plural nama controller (RoomController akan memanggil
+resources/views/rooms) 
+
+## Route
+Route membolehkan Laravel memanggil code terlibat berdasarkan request pengguna.
+
+Dalam training ini, kita menggunakan routes/web.php untuk meletakkan
+maklumat routing. Terdapat sedikit nota diisi di web.php sebagai rujukan
+
+## Membina Command Artisan
+Membina command artisan sangat berguna kerana penggunaannya meluas. Contohnya, ia boleh digunakan untuk menjalankan proses pada waktu tertentu menggunakan scheduler pada operating system.
+
+Gunakan Artisan untuk membina rangka arahan artisan:
+
+    php artisan make:command MenghantarEmail
+
+File rangka artisan ini akan dijana app/Console/Commands/ 
+
+app/Console/Commands/ManageKegunaan.php mengandungi contoh memaparkan
+rekod dalam bentuk table, cara meminta input daripada user dan menggunakan
+Model untuk sesuatu kegunaan.
+
+app/Console/Commands/ProcessKegunaan.php menunjukkan cara memaparkan
+progress bar
+
+Ada masa artisan command ini hendak digunakan dalam aplikasi web, dipanggil dalam controller contohnya.
+
+    //Dalam ManaManaController
+    // Artisan::call("kegunaan:proses");

@@ -14,7 +14,28 @@
 <body>
 	<header>
 
+        @guest
+            <!-- jika user tidak login, ini akan dipaparkan -->
+        @else
+            <!-- jika user telah login, ini akan dipaparkan -->
+            <!-- Mendapatkan nama pengguna yang sedang login pada sistem -->
+            {{ Auth::user()->name }}
+
+        @endguest
+
+    <!-- pada setiap view yang dibuat, kandungan dibawah bahagian section('content') akan
+    dimasukkan disini -->
     @yield('content')
+
+       <!-- untuk membuat if statement -->
+
+       @if( $apaSahajaSyarat )
+
+       @else
+
+       @endif
+
+
 
     <footer>
     </footer>

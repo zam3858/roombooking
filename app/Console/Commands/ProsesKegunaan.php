@@ -39,20 +39,24 @@ class ProsesKegunaan extends Command
      */
     public function handle()
     {
+        //akan menulis mesej ini ke dalam log file
         Log::info("Prosess kegunaan bermula");
 
-        $bar = $this->output->createProgressBar(100, 10);
+        //progress bar dia buat di sini.
+        $bar = $this->output->createProgressBar(100);
 
         $current_count = 0;
         while ( $current_count <= 100) {
-
+            //memberitahu progress bar terdapat progress
             $bar->advance();
             $current_count += 10;
 
         }
 
+        //memberitahu progress bar sudah selesai sepenuhnya
         $bar->finish();
 
+        //memaparkan kepada pengguna prosess selesai pada terminal
         $this->info("Processing done!");
 
         Log::info("Selesai");
