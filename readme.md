@@ -4,11 +4,12 @@
 
 ## Rujukan
  
- [Document Laravel](https://laravel.com/docs/5.6)
- [Asas PHP (laracasts)](https://laracasts.com/series/php-for-beginners)
- [Laravel From Scratch (laracasts)](https://laracasts.com/series/laravel-from-scratch-2017)
- [PHP The Right Way](https://www.phptherightway.com/)
-
+ * [Document Laravel](https://laravel.com/docs/5.6)
+ * [Tutorial Asas PHP (laracasts)](https://laracasts.com/series/php-for-beginners)
+ * [Tutorial Asas Laravel (laracasts)](https://laracasts.com/series/laravel-from-scratch-2017)
+ * [PHP The Right Way](https://www.phptherightway.com/)
+ 
+ * [ Adminlte free boostrap template] (https://adminlte.io)
 
 
 ## Nota laravel
@@ -70,6 +71,9 @@ Blade. View berada dalam folder resources/views/. Kebiasaannya nama folder
 dalam folder resources/views/ ini adalah mengikut plural nama controller (RoomController akan memanggil
 resources/views/rooms) 
 
+Boleh merujuk kepada file resources/views/layouts/cth.blade.php untuk beberapa
+contoh.
+
 ## Route
 Route membolehkan Laravel memanggil code terlibat berdasarkan request pengguna.
 
@@ -95,4 +99,4 @@ progress bar
 Ada masa artisan command ini hendak digunakan dalam aplikasi web, dipanggil dalam controller contohnya.
 
     //Dalam ManaManaController
-    // Artisan::call("kegunaan:proses");
+    Artisan::call("kegunaan:proses");

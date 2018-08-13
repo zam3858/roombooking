@@ -27,22 +27,44 @@
     dimasukkan disini -->
     @yield('content')
 
-       <!-- untuk membuat if statement -->
+        <!-- untuk code php, selain menggunakan <?php ?>, boleh juga menggunakan... -->
+        @php
+            $apaSahajaSyarat = true;
+        @endphp
 
+        <!-- untuk membuat if statement -->
        @if( $apaSahajaSyarat )
 
        @else
 
        @endif
 
+        @php
+            $users = [
+                ['name' => "Nama User"],
+                ['name' => "Nama User2"],
+                ['name' => "Nama User3"],
+            ];
+        @endphp
+        <!-- untuk membuat loop setiap rekod (contoh ini array jadi $user['namafield'] digunapakai-->
+        <ul>
+        @foreach($users as $user)
+            <li>{{ $user['name'] }}</li>
+        @endforeach
 
+        <!-- jika tiada rekod... -->
+        @empty($users)
+            <li>Tiada rekod untuk dipaparkan</li>
+        @endempty
+        </ul>
 
     <footer>
     </footer>
 
 	<script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
 
-	
      @stack('scripts')
+
+
 </body>
 </html>

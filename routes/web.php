@@ -27,6 +27,7 @@ Auth::routes();
 // asas systax route ialah:
 // Route::methodRequestDibuat('/patternUrlDiisiPadaBrowser','ControllerYangAkanDiguna@fungsiYangAkanDipanggil')->name('nama_route_ini');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
 
 //Ini contoh resource routing yang digunapakai Resource Controller
 Route::resource('rooms', 'RoomController');

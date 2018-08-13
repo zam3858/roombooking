@@ -1,4 +1,4 @@
-@extends('layouts.cth')
+@extends('layouts.adminlte')
 
 @section('content')
 <div class="container">
@@ -11,6 +11,8 @@
                     <form method="POST" action="{{ url('/rooms') }}" aria-label="{{ __('Room Form') }}">
                         @csrf
 
+                        <!-- mengambil kandungan rooms/form.blade.php
+                         dan memasukkannya disini -->
                         @include('rooms.form')
 
                         <div class="form-group row mb-0">
