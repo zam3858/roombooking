@@ -9,7 +9,7 @@
  * [Tutorial Asas Laravel (laracasts)](https://laracasts.com/series/laravel-from-scratch-2017)
  * [PHP The Right Way](https://www.phptherightway.com/)
  
- * [ Adminlte free boostrap template] (https://adminlte.io)
+ * [Adminlte free boostrap template](https://adminlte.io)
 
 
 ## Nota laravel
